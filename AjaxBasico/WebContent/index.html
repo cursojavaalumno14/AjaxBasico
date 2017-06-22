@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script>
+var xmlHttp = new XMLHttpRequest();
+
+function obtenerSaludo()
+{
+	//alert ("Toca el botón");	
+	console.log("Toca el botón");
+	xmlHttp.onreadystatechange = procesarRespuesta; //Cuando vuelva se llamará a procesarRespuesta
+	xmlHttp.open('GET', 'ObtenerSaludo', true); //Accedemos al Servlet ObtenerSaludo
+	xmlHttp.send (null);
+}
+
+function procesarRespuesta()
+{
+	if (xmlHttp.readyState == 4)
+		{
+			console.log("Respuesta recibida");
+			if (xmlHttp.status == 200)
+				{
+					console.log("Respuesta OK");
+					alert (" He recibido " + xmlHttp.responseText); //Desplegamos el texto de respuesta que xmlHttp recibió de ObtenerSaludo
+					var saludo = xmlHttp.responseText;
+					//La variable document representa al html completo
+					var caja_texto = document.getElementById("cajatexto"); //La id que se le da más abajo a la caja de texto
+					caja_texto.value = saludo;
+					
+					//Las 3 ultimas lineas se pueden escribir asi:
+					//document.getElementById("cajatexto").value = xmlHttp.responseText 
+					
+				}else{
+						alert ("Respuesta servidor KO");
+					}
+		}else{
+				console.log ("readyState = "+ xmlHttp.readyState);
+			}
+}
+
+</script>
+</head>
+<body>
+<input type="text" id="cajatexto"><br>
+<input type="button" value="GET saludo" onclick="obtenerSaludo();">
+</body>
+</html>
